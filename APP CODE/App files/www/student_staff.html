@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script type="text/javascript" src="js/ionic.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <style>
+        .nav-justified>li {
+            display: table-cell;
+            float:left;
+        }
+        a{
+            background-color: #387ef5;
+            color: white;
+            font-size: 15px;
+        }
+        .active>a{
+            background-color: #387ef5;
+        }
+    </style>
+    <script>
+        $(document).ready(function() {
+            if(localStorage.login == "false")
+                window.location.href = "index.html";
+            $("#logout").click(function () {
+                localStorage.login = "false";
+                window.location.href = "index.html";
+            });
+            var username=localStorage.username;
+            var usertype=localStorage.category;
+            $("#problem_insert").click(function(){
+                var problem=$("#problem").val();
+                var time=$("#time").val();
+                var category=$("#category").val();
+                var dataString="problem="+problem+"&time="+time+"&category="+category+"&username="+username+"&usertype="+usertype+"&problem_insert=";
+                if($.trim(problem).length>0)
+                {
+                    $.ajax({
+                        type: "POST",
+                        url:"http://techon.esy.es/makeac/complaint.php",
+                        data: dataString,
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function(){ $("#problem_insert").val('Connecting...');},
+                        success: function(data){
+                            if(data=="success")
+                            {
+                                alert("Thanks for your Feedback");
+                                $("#problem_insert").val('submit');
+                                window.location.reload(true);
+                            }
+                            else if(data=="error")
+                            {
+                                alert("Please Check the Fields");
+                            }
+                            else if (data=="error2")
+                            {
+                                alert(" bc");
+                            }
+                            else
+                                alert("Problem Submitted");
+                            $("#problem_insert").val('submit');
+                            window.location.reload(true);
+
+                        }
+                    });
+                }
+                else
+                {
+                    alert("Fill the Required Fields");
+                }
+
+            });
+        });
+</script>
+    <script>
+        $(document).ready(function() {
+
+            $("#feedback_insert").click(function(){
+                var feedback=$("#feedback").val();
+                var dataString="feedback="+feedback+"&feedback_insert=";
+                if($.trim(feedback).length>0)
+                {
+                    $.ajax({
+                        type: "POST",
+                        url:"http://techon.esy.es/makeac/feedback.php",
+                        data: dataString,
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function(){ $("#feedback_insert").val('Connecting...');},
+                        success: function(data){
+                            if(data=="success")
+                            {
+                                alert("Thanks for your Feedback");
+                                $("#feedback_insert").val('submit');
+                                window.location.reload(true);
+                            }
+                            else if(data=="error")
+                            {
+                                alert("Please Check the Fields");
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    alert("Fill the Required Fields");
+                }
+            });
+
+        });
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            var username=localStorage.username;
+            var usertype=localStorage.category;
+            var url="http://techon.esy.es/makeac/previous.php?username="+username+"&usertype="+usertype+"&insert=123";
+            $.getJSON(url,function(result){
+                console.log(result);
+                $.each(result, function(i, field){
+                    var problem=field.problem;
+                    var st=field.status;
+                    if(st=="1")
+                        var status="Resolved";
+                    else
+                        var status="Pending";
+                    var cat=field.category;
+                    if(cat=="1")
+                        var worker="Carpenter";
+                    else if(cat=="2")
+                        var worker="Electrician";
+                    else if(cat=="3")
+                        var worker="Plumber";
+                    else
+                        var worker="Cleaner";
+                    var date=field.date;
+                    var id=field.complaint_id;
+                    $("#list2").append("<div class='list card'><div class='item item-avatar'><img src='img/avatar.jpg'><h2>"+worker+"</h2><p>"+date+"</p></div><div class='item item-body'><h4 style='font-weight: bold;'>Problem : </h4><p>"+problem+" <h4 style='font-weight: bold; display: inline-block;'>Status : </h4> <p style='display: inline-block;'>"+status+" </p> <br><a href='update.html?id="+id+"' style='background-color: white;'><button class='button button-outline button-positive'>Change status</button></a></div></div>");
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="bar bar-header bar-positive">
+    <h1 class="title" style="font-weight: bold; text-align: left; font-size:large; display: inline-block;">MakeAC</h1>
+    <a id="logout" style="text-decoration: none; cursor:pointer;" href="#"><h1 class="title" style="font-weight: bold; text-align: right; font-size:small; display: inline-block;">
+        <i class="icon ion-log-out"></i> LogOut</h1></a>
+</div>
+<br><br>
+
+<div class="container">
+     <ul class="nav nav-pills nav-justified">
+        <li style="margin-left: 4px; padding: 0; " class="active"><a data-toggle="pill" href="#home"><i class="icon ion-compose"></i> Complain</a></li>
+        <li><a data-toggle="pill" href="#menu1"><i class="icon ion-ios-paper-outline"></i> Feedback</a></li>
+        <li><a data-toggle="pill" href="#menu2"><i class="icon ion-skip-backward"></i> Previous</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="home" class="tab-pane fade in active">
+            <br><br>
+            <div style="width: 80%; margin-left: 10%">
+
+                <div class="list">
+                    <label class="item item-input">
+                        <input type="text" placeholder="Problem" id="problem">
+                    </label>
+                    <br>
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Category
+                        </div>
+                        <select id="category">
+                            <option value="1">Carpenter</option>
+                            <option value="2" selected>Electrician</option>
+                            <option value="3">Plumber</option>
+                            <option value="4">Cleaner</option>
+                        </select>
+                    </label>
+                    <br>
+                    <label class="item item-input item-select">
+                        <div class="input-label">
+                            Time Slot
+                        </div>
+                        <select id="time">
+                            <option value="1">10-01 PM</option>
+                            <option value="2" selected>01-04 PM</option>
+                            <option value="3">04-07PM</option>
+                        </select>
+                        <script>
+                            var username=localStorage.username;
+                            var usertype=localStorage.category;
+                            console.log(username);
+                            console.log(usertype);
+                        </script>
+                    </label>
+                    <br>
+                    <input style="" type="button" id="problem_insert" class="button button-block button-positive" value="Make A Complaint"/>
+                </div>
+            </div>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+            <br><br>
+            <div style="width: 80%; margin-left: 10%">
+                <div class="list">
+                    <label class="item item-input">
+                        <input type="text" placeholder="Feedback" id="feedback">
+                    </label>
+                    <br>
+                    <input style="" type="button" id="feedback_insert" class="button button-block button-positive" value="Submit"/>
+                </div>
+            </div>
+        </div>
+        <div id="menu2" class="tab-pane fade">
+            <br><br>
+            <div style="width: 90%; margin-left: 5%">
+                <div class="list" id="list2">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

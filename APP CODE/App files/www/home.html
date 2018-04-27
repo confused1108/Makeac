@@ -1,0 +1,85 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <script type="text/javascript" src="js/ionic.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript" src="js/ionic.bundle.js"></script>
+    <script type="text/javascript" src="js/ionic-angular.js"></script>
+    <script type="text/javascript" src="js/ionic-angular.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $("#login").click(function(){
+                var username=$("#username").val();
+                var password=$("#password").val();
+                var dataString="username="+username+"&password="+password+"&login=";
+                if($.trim(username).length>0 & $.trim(password).length>0)
+                {
+                    $.ajax({
+                        type: "POST",
+                        url: "http://techon.esy.es/makeac/login.php",
+                        data: dataString,
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function(){ $("#login").html('Connecting...');},
+                        success: function(data){
+                            if(data=="success1")
+                            {
+                                localStorage.login="true";
+                                localStorage.username=username;
+                                localStorage.category="1";
+                                window.location.href = "student_staff.html";
+                            }
+                            else if(data=="success2")
+                            {
+                                localStorage.login="true";
+                                localStorage.username=username;
+                                localStorage.category="2";
+                                window.location.href = "student_staff.html";
+                            }
+                            else if (data=="success3")
+                            {
+                                localStorage.login="true";
+                                localStorage.username=username;
+                                localStorage.category="3";
+                                window.location.href = "workers.html";
+                            }
+                            else
+                            {
+                                alert("Wrong Credentials");
+                                $("#login").html('Login');
+                            }
+                        }
+                    });
+                }return false;
+            });
+        });
+    </script>
+</head>
+<body>
+<img src="img/home.jpg" style="padding:0; margin:0;width:100%; height: auto">
+<br><br>
+<div style="width: 80%; margin-left: 10%;">
+    <br>
+<div class="list">
+    <label class="item item-input">
+        <input type="text" placeholder="Username" id="username">
+    </label>
+    <label class="item item-input">
+        <input type="password" placeholder="Password" id="password">
+    </label>
+    <input style="" type="button" id="login" class="button button-block button-positive" value="Sign In"/>
+</div>
+    <h5 style="text-align: center">OR</h5>
+    <hr style="background-color: #0c60ee; height: 3px;">
+    <br>
+    <a href="register.html" style="text-decoration: none;"><button class="button button-block button-balanced">
+        Register
+    </button></a>
+    <br>
+    <h6 style="text-align: center;">MakeAC | A Europa's Product</h6>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script type="text/javascript" src="js/ionic.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript" src="js/ionic.bundle.js"></script>
+    <script type="text/javascript" src="js/ionic-angular.js"></script>
+    <script type="text/javascript" src="js/ionic-angular.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var id = decodeURI(getUrlVars()["id"]);
+            var dataString="id="+id+"&insert=123";
+                $.ajax({
+                    type: "POST",
+                    url:"http://techon.esy.es/makeac/update.php",
+                    data: dataString,
+                    crossDomain: true,
+                    cache: false,
+                    success: function(data){
+                        if(data=="success")
+                        {
+                            window.location = "student_staff.html";
+                        }
+                    }
+                });
+        });
+    </script>
+</head>
+<body>
+
+</body>
+</html>

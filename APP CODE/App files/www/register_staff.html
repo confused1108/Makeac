@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script type="text/javascript" src="js/ionic.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript" src="js/ionic.bundle.js"></script>
+    <script type="text/javascript" src="js/ionic-angular.js"></script>
+    <script type="text/javascript" src="js/ionic-angular.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            $("#insert").click(function(){
+                var name=$("#name").val();
+                var phone=$("#phone").val();
+                var address=$("#address").val();
+                var username=$("#username").val();
+                var password=$("#password").val();
+                var dataString="name="+name+"&phone="+phone+"&address="+address+"&username="+username+"&password="+password+"&insert=";
+                if($.trim(name).length>0 & $.trim(password).length>0 & $.trim(address).length>0 & $.trim(username).length>0 & $.trim(phone).length>0)
+                {
+                    $.ajax({
+                        type: "POST",
+                        url:"http://techon.esy.es/makeac/staff.php",
+                        data: dataString,
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function(){ $("#insert").val('Connecting...');},
+                        success: function(data){
+                            if(data=="success")
+                            {
+                                window.location = "home2.html";
+                                $("#insert").val('submit');
+                            }
+                            else if(data=="error")
+                            {
+                                alert("Please Check the Fields");
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    alert("Fill the Required Fields");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="bar bar-header bar-balanced">
+    <h1 class="title" style="font-weight: bold">MakeAC</h1>
+</div>
+<br><br><br><br>
+<div style="width: 80%; margin-left: 10%">
+
+    <div class="list">
+        <label class="item item-input">
+            <input type="text" placeholder="Name" id="name">
+        </label>
+        <br>
+        <label class="item item-input">
+            <input type="text" placeholder="Address" id="address">
+        </label>
+        <br>
+        <label class="item item-input">
+            <input type="text" placeholder="Organization Code" onkeyup="myFunction()" id="code">
+        </label>
+        <p id="error" style="color: red;"></p>
+        <br>
+        <label class="item item-input">
+            <input type="text" placeholder="Phone No." id="phone">
+        </label>
+        <br>
+        <label class="item item-input">
+            <input type="text" placeholder="Username" id="username">
+        </label>
+        <br>
+        <label class="item item-input">
+            <input type="password" placeholder="Password" id="password">
+        </label>
+        <br>
+        <input style="" type="button" id="insert" class="button button-block button-positive" value="Insert"/>
+    </div>
+</div>
+<script>
+    function myFunction() {
+        var x = document.getElementById("code");
+        if(x.value != "IIITMG038")
+        {
+            $("#error").html("Not a valid code");
+            document.getElementById("insert").disabled = true;
+        }
+        else
+        {
+            $("#error").html("Valid Code");
+            document.getElementById("insert").disabled = false;
+        }
+    }
+</script>
+</body>
+</html>

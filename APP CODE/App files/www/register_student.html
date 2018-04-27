@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="css/ionic.css">
+    <link rel="stylesheet" type="text/css" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script type="text/javascript" src="js/ionic.js"></script>
+    <script type="text/javascript" src="js/geturi.js"></script>
+    <script type="text/javascript" src="js/ionic.bundle.js"></script>
+    <script type="text/javascript" src="js/ionic-angular.js"></script>
+    <script type="text/javascript" src="js/ionic-angular.min.js"></script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function()
+        {
+            $("#insert").click(function(){
+                var name=$("#name").val();
+                var phone=$("#phone").val();
+                var roll=$("#roll").val();
+                var room=$("#room").val();
+                var password=$("#password").val();
+                var region=$("#region").val();
+                var dataString="name="+name+"&phone="+phone+"&roll="+roll+"&room="+room+"&password="+password+"&region="+region+"&insert=";
+                if($.trim(name).length>0 & $.trim(password).length>0 & $.trim(room).length>0 & $.trim(roll).length>0 & $.trim(region).length>0 & $.trim(phone).length>0)
+                {
+                    $.ajax({
+                        type: "POST",
+                        url:"http://techon.esy.es/makeac/student.php",
+                        data: dataString,
+                        crossDomain: true,
+                        cache: false,
+                        beforeSend: function(){ $("#insert").val('Connecting...');},
+                        success: function(data){
+                            if(data=="success")
+                            {
+                                window.location = "home2.html";
+                                $("#insert").val('submit');
+                            }
+                            else if(data=="error")
+                            {
+                                alert("Please Check the Fields");
+                            }
+                            else if(data=="error2")
+                            {
+                                alert("This Roll Number is already Registered");
+                            }
+                        }
+                    });
+                }
+                else
+                {
+                    alert("Fill the Required Fields");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="bar bar-header bar-balanced">
+    <h1 class="title" style="font-weight: bold">MakeAC</h1>
+</div>
+<br><br><br><br>
+<div style="width: 80%; margin-left: 10%">
+
+    <div class="list">
+        <label class="item item-input">
+            <input type="text" placeholder="Name" id="name" required>
+        </label>
+        <br>
+        <label class="item item-input">
+            <input type="text" placeholder="Roll No." id="roll" required>
+        </label>
+        <br>
+        <label class="item item-input">
+            <input type="text" placeholder="Room No." id="room" required>
+        </label>
+        <br>
+        <label class="item item-input">
+            <input type="text" placeholder="Phone No." id="phone" required>
+        </label>
+        <br>
+        <label class="item item-input item-select">
+            <div class="input-label">
+                Region
+            </div>
+            <select id="region" required>
+                <option value="1">BH-1</option>
+                <option selected value="2">BH-2</option>
+                <option value="3">BH-3</option>
+                <option value="4">GH</option>
+            </select>
+        </label>
+        <br>
+        <label class="item item-input">
+            <input type="password" placeholder="Password" id="password" required>
+        </label>
+        <br>
+        <input style="" type="button" id="insert" class="button button-block button-positive" value="Insert"/>
+    </div>
+</div>
+</body>
+</html>
