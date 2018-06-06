@@ -18,7 +18,4 @@ For APP : <br>
 <br>•	Upload database.
 <br>•	Change database credentials in connection file.
 <br>•	Upload app and web on same server and use common database.
-<br>•	Admin Credentials : username – hits, password – 7441183308
 <br>•	Current url : techno.esy.es/makeac/admin
-<br>
-<br>** The code is work of github.com/confused1108. Commercial use without permission is not allowed** 
