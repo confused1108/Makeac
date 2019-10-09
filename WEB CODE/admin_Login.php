@@ -28,7 +28,7 @@
 <div class="row">
 <div class="col-md-4">
 
-<h1 style="font-weight:bold;font-size:40px;color:white;">MakeAC</h1>
+<h1 style="font-weight:bold;font-size:42px;color:white;">MakeAC</h1>
   
 </div>
 
@@ -68,7 +68,7 @@
    <div class="row">
    <div class="col-sm-4 col-md-4 col-lg-4"></div>
    <div class="col-sm-4 col-md-4 col-lg-4">
-  <form style="width: 90%;margin-top:15%;padding:15px;border-radius: 5px;background-color:lightgrey " align="left"  method="post" action="admin_Login_post.php" name="myForm" onsubmit="return validateForm()" >
+  <form style="width: 90%;margin-top:15%;padding:16px;border-radius: 5px;background-color:lightgrey " align="left"  method="post" action="admin_Login_post.php" name="myForm" onsubmit="return validateForm()" >
  
 
 
